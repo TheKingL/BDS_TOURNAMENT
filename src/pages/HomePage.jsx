@@ -16,7 +16,7 @@ export default function HomePage() {
             name: 'Ping-Pong Solo',
             icon: '🏓',
             description: 'Tournoi individuel',
-            format: 'Ligue → Top 8 en Quarts → Finale BO3',
+            format: 'Ligue → Top 8 en Quarts → Finale BO5',
             color: 'from-blue-600 to-blue-800',
             link: '/pingpong-solo'
         },
@@ -25,7 +25,7 @@ export default function HomePage() {
             name: 'Ping-Pong Duo',
             icon: '🏓',
             description: 'Tournoi en équipe - 7 équipes',
-            format: 'Ligue → Top 4 en Demis → Finale BO3',
+            format: 'Ligue → Top 4 en Demis → Finale BO5',
             color: 'from-purple-600 to-purple-800',
             link: '/pingpong-duo'
         }
