@@ -15,6 +15,8 @@ import PingpongDuoLiguePage from './pages/pingpong-duo/LiguePage';
 import PingpongDuoBracketPage from './pages/pingpong-duo/BracketPage';
 // Admin
 import AdminPage from './pages/AdminPage';
+// Errors
+import { ErrorPage, ErrorBoundary } from './pages/errors';
 
 function App() {
   return (
@@ -22,28 +24,33 @@ function App() {
       <div className="min-h-screen bg-bg-primary flex flex-col">
         <Navbar />
         <main className="flex-1" style={{ padding: '0 1rem' }}>
-          <Routes>
-            {/* Home */}
-            <Route path="/" element={<HomePage />} />
+          <ErrorBoundary>
+            <Routes>
+              {/* Home */}
+              <Route path="/" element={<HomePage />} />
 
-            {/* Babyfoot */}
-            <Route path="/babyfoot" element={<BabyfootTeamsPage />} />
-            <Route path="/babyfoot/poules" element={<BabyfootPoolsPage />} />
-            <Route path="/babyfoot/bracket" element={<BabyfootBracketPage />} />
+              {/* Babyfoot */}
+              <Route path="/babyfoot" element={<BabyfootTeamsPage />} />
+              <Route path="/babyfoot/poules" element={<BabyfootPoolsPage />} />
+              <Route path="/babyfoot/bracket" element={<BabyfootBracketPage />} />
 
-            {/* Ping-Pong Solo */}
-            <Route path="/pingpong-solo" element={<PingpongSoloPlayersPage />} />
-            <Route path="/pingpong-solo/ligue" element={<PingpongSoloLiguePage />} />
-            <Route path="/pingpong-solo/bracket" element={<PingpongSoloBracketPage />} />
+              {/* Ping-Pong Solo */}
+              <Route path="/pingpong-solo" element={<PingpongSoloPlayersPage />} />
+              <Route path="/pingpong-solo/ligue" element={<PingpongSoloLiguePage />} />
+              <Route path="/pingpong-solo/bracket" element={<PingpongSoloBracketPage />} />
 
-            {/* Ping-Pong Duo */}
-            <Route path="/pingpong-duo" element={<PingpongDuoTeamsPage />} />
-            <Route path="/pingpong-duo/ligue" element={<PingpongDuoLiguePage />} />
-            <Route path="/pingpong-duo/bracket" element={<PingpongDuoBracketPage />} />
+              {/* Ping-Pong Duo */}
+              <Route path="/pingpong-duo" element={<PingpongDuoTeamsPage />} />
+              <Route path="/pingpong-duo/ligue" element={<PingpongDuoLiguePage />} />
+              <Route path="/pingpong-duo/bracket" element={<PingpongDuoBracketPage />} />
 
-            {/* Admin */}
-            <Route path="/admin" element={<AdminPage />} />
-          </Routes>
+              {/* Admin - Only in development */}
+              {!import.meta.env.PROD && <Route path="/admin" element={<AdminPage />} />}
+
+              {/* 404 - Catch all */}
+              <Route path="*" element={<ErrorPage code={404} />} />
+            </Routes>
+          </ErrorBoundary>
         </main>
 
         {/* Footer */}
