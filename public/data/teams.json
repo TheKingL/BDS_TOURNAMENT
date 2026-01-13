@@ -1,0 +1,66 @@
+[
+    {
+        "id": "alpha",
+        "name": "Alpha",
+        "players": [
+            "Diogoye SARR",
+            "Dennick NGETCHAM"
+        ]
+    },
+    {
+        "id": "delta",
+        "name": "Delta",
+        "players": [
+            "Ozias GBEDOZIN",
+            "Mama DIOUM"
+        ]
+    },
+    {
+        "id": "beta",
+        "name": "Beta",
+        "players": [
+            "Axel SERAZIN",
+            "Romaric KAKI"
+        ]
+    },
+    {
+        "id": "gamma",
+        "name": "Gamma",
+        "players": [
+            "Marc Junior HOUNDJI",
+            "Elias COSME VINOU"
+        ]
+    },
+    {
+        "id": "epsilon",
+        "name": "Epsilon",
+        "players": [
+            "Moussa SADIO",
+            "Willy WAFFO TALLA"
+        ]
+    },
+    {
+        "id": "omega",
+        "name": "Omega",
+        "players": [
+            "Côme OLIVIER",
+            "Franck NKOMA"
+        ]
+    },
+    {
+        "id": "lambda",
+        "name": "Lambda",
+        "players": [
+            "Nicolas DIOUBATE",
+            "Marie-Ange KUITCHE"
+        ]
+    },
+    {
+        "id": "sigma",
+        "name": "Sigma",
+        "players": [
+            "Maëlle CHATET",
+            "Kevin HASCOET"
+        ]
+    }
+]
