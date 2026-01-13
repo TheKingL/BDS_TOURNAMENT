@@ -1,0 +1,106 @@
+{
+    "quarterFinals": [
+        {
+            "id": 1,
+            "position": "QF1",
+            "player1": null,
+            "player2": null,
+            "score1": 0,
+            "score2": 0,
+            "winner": null,
+            "played": false
+        },
+        {
+            "id": 2,
+            "position": "QF2",
+            "player1": null,
+            "player2": null,
+            "score1": 0,
+            "score2": 0,
+            "winner": null,
+            "played": false
+        },
+        {
+            "id": 3,
+            "position": "QF3",
+            "player1": null,
+            "player2": null,
+            "score1": 0,
+            "score2": 0,
+            "winner": null,
+            "played": false
+        },
+        {
+            "id": 4,
+            "position": "QF4",
+            "player1": null,
+            "player2": null,
+            "score1": 0,
+            "score2": 0,
+            "winner": null,
+            "played": false
+        }
+    ],
+    "semiFinals": [
+        {
+            "id": 1,
+            "position": "SF1",
+            "player1": null,
+            "player2": null,
+            "score1": 0,
+            "score2": 0,
+            "winner": null,
+            "played": false
+        },
+        {
+            "id": 2,
+            "position": "SF2",
+            "player1": null,
+            "player2": null,
+            "score1": 0,
+            "score2": 0,
+            "winner": null,
+            "played": false
+        }
+    ],
+    "thirdPlace": {
+        "player1": null,
+        "player2": null,
+        "score1": 0,
+        "score2": 0,
+        "winner": null,
+        "played": false
+    },
+    "final": {
+        "player1": null,
+        "player2": null,
+        "matches": [
+            {
+                "score1": 0,
+                "score2": 0,
+                "played": false
+            },
+            {
+                "score1": 0,
+                "score2": 0,
+                "played": false
+            },
+            {
+                "score1": 0,
+                "score2": 0,
+                "played": false
+            },
+            {
+                "score1": 0,
+                "score2": 0,
+                "played": false
+            },
+            {
+                "score1": 0,
+                "score2": 0,
+                "played": false
+            }
+        ],
+        "winner": null
+    }
+}

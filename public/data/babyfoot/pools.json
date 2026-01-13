@@ -1,0 +1,158 @@
+{
+    "pools": [
+        {
+            "id": "A",
+            "name": "POULE A",
+            "teams": [
+                "alpha",
+                "delta",
+                "epsilon",
+                "omega"
+            ]
+        },
+        {
+            "id": "B",
+            "name": "POULE B",
+            "teams": [
+                "beta",
+                "gamma",
+                "lambda",
+                "sigma"
+            ]
+        }
+    ],
+    "matches": [
+        {
+            "id": 1,
+            "pool": "A",
+            "team1": "alpha",
+            "team2": "delta",
+            "score1": 0,
+            "score2": 0,
+            "time": "12:35",
+            "date": "2026-01-14",
+            "played": false
+        },
+        {
+            "id": 2,
+            "pool": "A",
+            "team1": "epsilon",
+            "team2": "omega",
+            "score1": 0,
+            "score2": 0,
+            "time": "12:40",
+            "date": "2026-01-14",
+            "played": false
+        },
+        {
+            "id": 3,
+            "pool": "A",
+            "team1": "alpha",
+            "team2": "epsilon",
+            "score1": 0,
+            "score2": 0,
+            "time": null,
+            "date": null,
+            "played": false
+        },
+        {
+            "id": 4,
+            "pool": "A",
+            "team1": "delta",
+            "team2": "omega",
+            "score1": 0,
+            "score2": 0,
+            "time": null,
+            "date": null,
+            "played": false
+        },
+        {
+            "id": 5,
+            "pool": "A",
+            "team1": "alpha",
+            "team2": "omega",
+            "score1": 0,
+            "score2": 0,
+            "time": null,
+            "date": null,
+            "played": false
+        },
+        {
+            "id": 6,
+            "pool": "A",
+            "team1": "delta",
+            "team2": "epsilon",
+            "score1": 0,
+            "score2": 0,
+            "time": null,
+            "date": null,
+            "played": false
+        },
+        {
+            "id": 7,
+            "pool": "B",
+            "team1": "beta",
+            "team2": "gamma",
+            "score1": 0,
+            "score2": 0,
+            "time": "12:45",
+            "date": "2026-01-14",
+            "played": false
+        },
+        {
+            "id": 8,
+            "pool": "B",
+            "team1": "lambda",
+            "team2": "sigma",
+            "score1": 0,
+            "score2": 0,
+            "time": "12:50",
+            "date": "2026-01-14",
+            "played": false
+        },
+        {
+            "id": 9,
+            "pool": "B",
+            "team1": "beta",
+            "team2": "lambda",
+            "score1": 0,
+            "score2": 0,
+            "time": null,
+            "date": null,
+            "played": false
+        },
+        {
+            "id": 10,
+            "pool": "B",
+            "team1": "gamma",
+            "team2": "sigma",
+            "score1": 0,
+            "score2": 0,
+            "time": null,
+            "date": null,
+            "played": false
+        },
+        {
+            "id": 11,
+            "pool": "B",
+            "team1": "beta",
+            "team2": "sigma",
+            "score1": 0,
+            "score2": 0,
+            "time": null,
+            "date": null,
+            "played": false
+        },
+        {
+            "id": 12,
+            "pool": "B",
+            "team1": "gamma",
+            "team2": "lambda",
+            "score1": 0,
+            "score2": 0,
+            "time": null,
+            "date": null,
+            "played": false
+        }
+    ]
+}
