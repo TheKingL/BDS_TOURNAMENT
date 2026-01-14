@@ -169,9 +169,9 @@ export default function LiguePage() {
                                     className={`bg-bg-card border border-border rounded-xl match-row ${match.played ? 'opacity-100' : 'opacity-70'}`}
                                     style={{ padding: '1rem' }}
                                 >
-                                    <div className="flex items-start" style={{ gap: '0.75rem' }}>
+                                    <div className="flex items-start" style={{ gap: '1rem' }}>
                                         {/* Match ID, Time & Date */}
-                                        <div style={{ minWidth: '45px', flexShrink: 0 }}>
+                                        <div style={{ minWidth: '60px', flexShrink: 0 }}>
                                             <div className="text-xs text-text-muted">#{match.id}</div>
                                             <div className="text-blue-400 font-semibold text-xs">{match.time || '-:-'}</div>
                                             <div className="text-xs text-text-muted">{match.date || '-/-'}</div>
@@ -185,7 +185,7 @@ export default function LiguePage() {
                                         </div>
 
                                         {/* VS / Score */}
-                                        <div style={{ flexShrink: 0, textAlign: 'center' }}>
+                                        <div style={{ minWidth: '50px', textAlign: 'center' }}>
                                             {match.played ? (
                                                 <span className="font-bold text-text-primary">{match.score1} - {match.score2}</span>
                                             ) : (
