@@ -39,7 +39,7 @@ export default function LiguePage() {
         }).join(' & ');
     };
 
-    // Calculate standings
+    // Calculate standings (10pts per set won + 15pts bonus for match win)
     const standings = league.teams.map(teamId => {
         const teamMatches = league.matches.filter(
             m => (m.team1 === teamId || m.team2 === teamId) && m.played
@@ -52,9 +52,12 @@ export default function LiguePage() {
             const oppScore = isTeam1 ? match.score2 : match.score1;
             setsWon += myScore;
             setsLost += oppScore;
+            // 10 points per set won
+            points += myScore * 10;
+            // 15 bonus points for match win
             if (myScore > oppScore) {
                 wins++;
-                points += 3;
+                points += 15;
             } else {
                 losses++;
             }
@@ -102,7 +105,7 @@ export default function LiguePage() {
                                 <th className="text-center text-text-muted text-xs font-semibold" style={{ padding: '0.75rem' }}>J</th>
                                 <th className="text-center text-text-muted text-xs font-semibold" style={{ padding: '0.75rem' }}>V</th>
                                 <th className="text-center text-text-muted text-xs font-semibold" style={{ padding: '0.75rem' }}>D</th>
-                                <th className="text-center text-text-muted text-xs font-semibold" style={{ padding: '0.75rem' }}>+/-</th>
+                                <th className="text-center text-text-muted text-xs font-semibold" style={{ padding: '0.75rem' }}>Sets</th>
                                 <th className="text-center text-text-muted text-xs font-semibold" style={{ padding: '0.75rem' }}>Pts</th>
                             </tr>
                         </thead>
@@ -120,9 +123,7 @@ export default function LiguePage() {
                                     <td className="text-center text-text-secondary" style={{ padding: '0.75rem' }}>{s.played}</td>
                                     <td className="text-center text-green-400 font-semibold" style={{ padding: '0.75rem' }}>{s.wins}</td>
                                     <td className="text-center text-red-400 font-semibold" style={{ padding: '0.75rem' }}>{s.losses}</td>
-                                    <td className={`text-center font-semibold ${s.diff > 0 ? 'text-green-400' : s.diff < 0 ? 'text-red-400' : 'text-text-muted'}`} style={{ padding: '0.75rem' }}>
-                                        {s.diff > 0 ? '+' : ''}{s.diff}
-                                    </td>
+                                    <td className="text-center text-yellow-400 font-semibold" style={{ padding: '0.75rem' }}>{s.setsWon}</td>
                                     <td className="text-center text-purple-400 font-bold" style={{ padding: '0.75rem' }}>{s.points}</td>
                                 </tr>
                             ))}
@@ -184,10 +185,13 @@ export default function LiguePage() {
 
                                         {/* Team 1 */}
                                         <div style={{ flex: 1, textAlign: 'right' }}>
-                                            <div className={`font-semibold ${match.played && match.score1 > match.score2 ? 'text-green-400' : 'text-text-primary'}`}>
+                                            <div className={`font-semibold ${match.played ? (match.score1 > match.score2 ? 'text-green-400' : match.score1 < match.score2 ? 'text-red-400' : 'text-text-secondary') : 'text-text-primary'}`}>
                                                 {getTeamName(match.team1)}
                                             </div>
-                                            <div className="text-xs text-text-muted">{getTeamFirstNames(match.team1)}</div>
+                                            <div className="text-xs text-text-muted">
+                                                {getTeamFirstNames(match.team1)}
+                                                {match.forfait === match.team1 && <span className="text-red-500 font-semibold"> (Forfait)</span>}
+                                            </div>
                                         </div>
 
                                         {/* VS / Score */}
@@ -201,16 +205,19 @@ export default function LiguePage() {
 
                                         {/* Team 2 */}
                                         <div style={{ flex: 1, textAlign: 'left' }}>
-                                            <div className={`font-semibold ${match.played && match.score2 > match.score1 ? 'text-green-400' : 'text-text-primary'}`}>
+                                            <div className={`font-semibold ${match.played ? (match.score2 > match.score1 ? 'text-green-400' : match.score2 < match.score1 ? 'text-red-400' : 'text-text-secondary') : 'text-text-primary'}`}>
                                                 {getTeamName(match.team2)}
                                             </div>
-                                            <div className="text-xs text-text-muted">{getTeamFirstNames(match.team2)}</div>
+                                            <div className="text-xs text-text-muted">
+                                                {getTeamFirstNames(match.team2)}
+                                                {match.forfait === match.team2 && <span className="text-red-500 font-semibold"> (Forfait)</span>}
+                                            </div>
                                         </div>
 
                                         {/* Status */}
                                         <div style={{ minWidth: '24px', textAlign: 'center' }}>
-                                            <span className={`text-sm ${match.played ? 'text-green-400' : 'text-text-muted'}`}>
-                                                {match.played ? '✓' : '⏳'}
+                                            <span className={`text-sm ${match.forfait ? 'text-red-500' : match.played ? 'text-green-400' : 'text-text-muted'}`}>
+                                                {match.forfait ? '🚫' : match.played ? '✓' : '⏳'}
                                             </span>
                                         </div>
                                     </div>

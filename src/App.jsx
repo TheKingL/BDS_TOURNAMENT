@@ -20,7 +20,7 @@ import { ErrorPage, ErrorBoundary } from './pages/errors';
 
 function App() {
   return (
-    <BrowserRouter basename="/BDS_TOURNAMENT">
+    <BrowserRouter basename={import.meta.env.PROD ? '/BDS_TOURNAMENT' : ''}>
       <div className="min-h-screen bg-bg-primary flex flex-col">
         <Navbar />
         <main className="flex-1" style={{ padding: '0 1rem' }}>

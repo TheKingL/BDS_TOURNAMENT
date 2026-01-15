@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { adminApiPlugin } from './vite-admin-plugin.js'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [react(), tailwindcss(), adminApiPlugin()],
-  base: '/BDS_TOURNAMENT/',
-})
+  base: command === 'build' ? '/BDS_TOURNAMENT/' : '/',
+}))

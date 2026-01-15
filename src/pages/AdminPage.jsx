@@ -392,6 +392,19 @@ export default function AdminPage() {
             }));
         };
 
+        // Sort matches by date then time
+        const sortedMatches = [...soloLeague.matches].sort((a, b) => {
+            if (a.date && b.date) {
+                const dateCompare = a.date.localeCompare(b.date);
+                if (dateCompare !== 0) return dateCompare;
+                if (a.time && b.time) return a.time.localeCompare(b.time);
+                return 0;
+            }
+            if (a.date && !b.date) return -1;
+            if (!a.date && b.date) return 1;
+            return a.id - b.id;
+        });
+
         return (
             <div>
                 <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem' }}>
@@ -439,15 +452,31 @@ export default function AdminPage() {
                             <p className="text-text-muted text-center" style={{ padding: '2rem' }}>Aucun match. Ajoutez des joueurs d'abord.</p>
                         ) : (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                {soloLeague.matches.map(m => (
-                                    <div key={m.id} className={`bg-bg-card border-2 rounded-xl ${m.played ? 'border-blue-500' : 'border-border'}`} style={{ padding: '0.75rem' }}>
+                                {sortedMatches.map(m => (
+                                    <div key={m.id} className={`bg-bg-card border-2 rounded-xl ${m.forfait ? 'border-red-500' : m.played ? 'border-blue-500' : 'border-border'}`} style={{ padding: '0.75rem' }}>
                                         <div className="flex items-center justify-between" style={{ gap: '0.5rem' }}>
-                                            <span className="text-xs text-text-muted">#{m.id}</span>
-                                            <span className="text-text-primary font-semibold">{getPlayerName(m.player1)}</span>
+                                            <div style={{ minWidth: '60px' }}>
+                                                <div className="text-xs text-text-muted">#{m.id}</div>
+                                                <div className="text-blue-400 font-semibold text-xs">{m.time || '-:-'}</div>
+                                                <div className="text-xs text-text-muted">{m.date || '-/-'}</div>
+                                            </div>
+                                            <div style={{ flex: 1, textAlign: 'right' }}>
+                                                <span className={`font-semibold ${m.forfait === m.player1 ? 'text-red-400' : 'text-text-primary'}`}>
+                                                    {getPlayerName(m.player1)}
+                                                    {m.forfait === m.player1 && <span className="text-xs text-red-500 ml-1">(F)</span>}
+                                                </span>
+                                            </div>
+                                            <button onClick={() => updateLeagueMatch(m.id, 'forfait', m.forfait === m.player1 ? null : m.player1)} className={`rounded text-xs ${m.forfait === m.player1 ? 'bg-red-500 text-white' : 'bg-bg-secondary text-text-muted'}`} style={{ padding: '0.15rem 0.3rem' }}>F1</button>
                                             <ScoreInput value={m.score1} onChange={(v) => updateLeagueMatch(m.id, 'score1', v)} />
                                             <span className="text-text-muted">-</span>
                                             <ScoreInput value={m.score2} onChange={(v) => updateLeagueMatch(m.id, 'score2', v)} />
-                                            <span className="text-text-primary font-semibold">{getPlayerName(m.player2)}</span>
+                                            <button onClick={() => updateLeagueMatch(m.id, 'forfait', m.forfait === m.player2 ? null : m.player2)} className={`rounded text-xs ${m.forfait === m.player2 ? 'bg-red-500 text-white' : 'bg-bg-secondary text-text-muted'}`} style={{ padding: '0.15rem 0.3rem' }}>F2</button>
+                                            <div style={{ flex: 1, textAlign: 'left' }}>
+                                                <span className={`font-semibold ${m.forfait === m.player2 ? 'text-red-400' : 'text-text-primary'}`}>
+                                                    {getPlayerName(m.player2)}
+                                                    {m.forfait === m.player2 && <span className="text-xs text-red-500 ml-1">(F)</span>}
+                                                </span>
+                                            </div>
                                             <button onClick={() => updateLeagueMatch(m.id, 'played', !m.played)} className={`rounded-lg ${m.played ? 'bg-blue-500 text-white' : 'bg-bg-secondary text-text-muted'}`} style={{ padding: '0.25rem 0.5rem' }}>
                                                 {m.played ? '✅' : '⏳'}
                                             </button>
@@ -572,6 +601,14 @@ export default function AdminPage() {
     // ========== PING-PONG DUO ==========
     const renderDuo = () => {
         const getTeamName = (id) => duoTeams.find(t => t.id === id)?.name || id || '???';
+        const getTeamPlayers = (id) => {
+            const team = duoTeams.find(t => t.id === id);
+            if (!team) return '';
+            return team.players.map(p => {
+                const name = p.charAt(0).toUpperCase() + p.slice(1);
+                return name.split(' ')[0];
+            }).join(' & ');
+        };
 
         const updateLeagueMatch = (matchId, field, value) => {
             setDuoLeague(prev => ({
@@ -579,6 +616,19 @@ export default function AdminPage() {
                 matches: prev.matches.map(m => m.id === matchId ? { ...m, [field]: value } : m)
             }));
         };
+
+        // Sort matches by date then time
+        const sortedMatches = [...duoLeague.matches].sort((a, b) => {
+            if (a.date && b.date) {
+                const dateCompare = a.date.localeCompare(b.date);
+                if (dateCompare !== 0) return dateCompare;
+                if (a.time && b.time) return a.time.localeCompare(b.time);
+                return 0;
+            }
+            if (a.date && !b.date) return -1;
+            if (!a.date && b.date) return 1;
+            return a.id - b.id;
+        });
 
         return (
             <div>
@@ -635,15 +685,33 @@ export default function AdminPage() {
                             <p className="text-text-muted text-center" style={{ padding: '2rem' }}>Aucun match programmé.</p>
                         ) : (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                                {duoLeague.matches.map(m => (
-                                    <div key={m.id} className={`bg-bg-card border-2 rounded-xl ${m.played ? 'border-purple-500' : 'border-border'}`} style={{ padding: '0.75rem' }}>
+                                {sortedMatches.map(m => (
+                                    <div key={m.id} className={`bg-bg-card border-2 rounded-xl ${m.forfait ? 'border-red-500' : m.played ? 'border-purple-500' : 'border-border'}`} style={{ padding: '0.75rem' }}>
                                         <div className="flex items-center justify-between" style={{ gap: '0.5rem' }}>
-                                            <span className="text-xs text-text-muted">#{m.id}</span>
-                                            <span className="text-text-primary font-semibold">{getTeamName(m.team1)}</span>
+                                            <div style={{ minWidth: '60px' }}>
+                                                <div className="text-xs text-text-muted">#{m.id}</div>
+                                                <div className="text-purple-400 font-semibold text-xs">{m.time || '-:-'}</div>
+                                                <div className="text-xs text-text-muted">{m.date || '-/-'}</div>
+                                            </div>
+                                            <div style={{ flex: 1, textAlign: 'right' }}>
+                                                <div className={`text-text-primary font-semibold ${m.forfait === m.team1 ? 'text-red-400' : ''}`}>
+                                                    {getTeamName(m.team1)}
+                                                    {m.forfait === m.team1 && <span className="text-xs text-red-500 ml-1">(F)</span>}
+                                                </div>
+                                                <div className="text-xs text-text-muted">{getTeamPlayers(m.team1)}</div>
+                                            </div>
+                                            <button onClick={() => updateLeagueMatch(m.id, 'forfait', m.forfait === m.team1 ? null : m.team1)} className={`rounded text-xs ${m.forfait === m.team1 ? 'bg-red-500 text-white' : 'bg-bg-secondary text-text-muted'}`} style={{ padding: '0.15rem 0.3rem' }}>F1</button>
                                             <ScoreInput value={m.score1} onChange={(v) => updateLeagueMatch(m.id, 'score1', v)} />
                                             <span className="text-text-muted">-</span>
                                             <ScoreInput value={m.score2} onChange={(v) => updateLeagueMatch(m.id, 'score2', v)} />
-                                            <span className="text-text-primary font-semibold">{getTeamName(m.team2)}</span>
+                                            <button onClick={() => updateLeagueMatch(m.id, 'forfait', m.forfait === m.team2 ? null : m.team2)} className={`rounded text-xs ${m.forfait === m.team2 ? 'bg-red-500 text-white' : 'bg-bg-secondary text-text-muted'}`} style={{ padding: '0.15rem 0.3rem' }}>F2</button>
+                                            <div style={{ flex: 1, textAlign: 'left' }}>
+                                                <div className={`text-text-primary font-semibold ${m.forfait === m.team2 ? 'text-red-400' : ''}`}>
+                                                    {getTeamName(m.team2)}
+                                                    {m.forfait === m.team2 && <span className="text-xs text-red-500 ml-1">(F)</span>}
+                                                </div>
+                                                <div className="text-xs text-text-muted">{getTeamPlayers(m.team2)}</div>
+                                            </div>
                                             <button onClick={() => updateLeagueMatch(m.id, 'played', !m.played)} className={`rounded-lg ${m.played ? 'bg-purple-500 text-white' : 'bg-bg-secondary text-text-muted'}`} style={{ padding: '0.25rem 0.5rem' }}>
                                                 {m.played ? '✅' : '⏳'}
                                             </button>
