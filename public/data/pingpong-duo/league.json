@@ -50,32 +50,32 @@
       "team1": "team7",
       "team2": "team1",
       "score1": 0,
-      "score2": 0,
+      "score2": 2,
       "time": "12:45",
       "date": "2026-01-16",
-      "played": false
+      "played": true
     },
     {
       "id": 5,
       "creneau": 2,
       "team1": "team2",
       "team2": "team3",
-      "score1": 0,
+      "score1": 2,
       "score2": 0,
       "time": "12:35",
       "date": "2026-01-16",
-      "played": false
+      "played": true
     },
     {
       "id": 6,
       "creneau": 2,
       "team1": "team4",
       "team2": "team5",
-      "score1": 0,
-      "score2": 0,
+      "score1": 2,
+      "score2": 1,
       "time": "12:55",
       "date": "2026-01-16",
-      "played": false
+      "played": true
     },
     {
       "id": 7,

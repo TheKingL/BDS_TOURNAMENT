@@ -195,55 +195,79 @@ export default function AdminPage() {
                 </div>
 
                 {/* Matches Tab */}
-                {activeTab === 'matches' && (
-                    <div>
-                        <div className="flex justify-between items-center" style={{ marginBottom: '1rem' }}>
-                            <h3 className="text-xl font-bold text-text-primary">Matchs de Poules</h3>
-                            <button onClick={() => saveData('/api/save-babyfoot-pools', babyfootPools, 'Poules')} disabled={saving} className="bg-green-primary text-bg-primary font-bold rounded-lg" style={{ padding: '0.75rem 1.5rem' }}>
-                                {saving ? '⏳' : '💾 Sauvegarder'}
-                            </button>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                            {babyfootPools.matches.map(match => (
-                                <div key={match.id} className={`bg-bg-card border-2 rounded-xl ${match.played ? 'border-green-dark' : 'border-border'}`} style={{ padding: '1rem' }}>
-                                    <div className="flex flex-wrap items-center justify-between" style={{ gap: '1rem' }}>
-                                        <div className="flex items-center" style={{ gap: '0.5rem' }}>
-                                            <span className="text-xs text-text-muted">#{match.id}</span>
-                                            <select value={match.pool} onChange={(e) => updateMatch(match.id, 'pool', e.target.value)} className="bg-bg-secondary border border-border rounded text-green-light font-bold" style={{ padding: '0.25rem' }}>
-                                                <option value="A">A</option>
-                                                <option value="B">B</option>
-                                            </select>
-                                            <input type="text" value={match.time || ''} onChange={(e) => updateMatch(match.id, 'time', e.target.value)} className="bg-bg-secondary border border-border rounded text-text-primary text-center" style={{ width: '60px', padding: '0.25rem' }} placeholder="12:00" />
-                                        </div>
-                                        <div className="flex items-center" style={{ gap: '0.5rem' }}>
-                                            <select value={match.team1} onChange={(e) => updateMatch(match.id, 'team1', e.target.value)} className="bg-bg-secondary border border-border rounded text-text-primary" style={{ padding: '0.25rem' }}>
-                                                {babyfootTeams.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-                                            </select>
-                                            <ScoreInput value={match.score1} onChange={(v) => updateMatch(match.id, 'score1', v)} />
-                                            <span className="text-text-muted">-</span>
-                                            <ScoreInput value={match.score2} onChange={(v) => updateMatch(match.id, 'score2', v)} />
-                                            <select value={match.team2} onChange={(e) => updateMatch(match.id, 'team2', e.target.value)} className="bg-bg-secondary border border-border rounded text-text-primary" style={{ padding: '0.25rem' }}>
-                                                {babyfootTeams.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-                                            </select>
-                                        </div>
-                                        <div className="flex items-center" style={{ gap: '0.5rem' }}>
-                                            <button onClick={() => updateMatch(match.id, 'played', !match.played)} className={`font-bold rounded-lg ${match.played ? 'bg-green-primary text-bg-primary' : 'bg-bg-secondary text-text-muted border border-dashed border-border'}`} style={{ padding: '0.5rem 0.75rem' }}>
-                                                {match.played ? '✅' : '⏳'}
-                                            </button>
-                                            <button onClick={() => setBabyfootPools(prev => ({ ...prev, matches: prev.matches.filter(m => m.id !== match.id) }))} className="bg-red-900/50 text-red-400 rounded-lg" style={{ padding: '0.5rem' }}>🗑️</button>
+                {activeTab === 'matches' && (() => {
+                    // Sort matches by date then time
+                    const sortedMatches = [...babyfootPools.matches].sort((a, b) => {
+                        if (a.date && b.date) {
+                            const dateCompare = a.date.localeCompare(b.date);
+                            if (dateCompare !== 0) return dateCompare;
+                            if (a.time && b.time) return a.time.localeCompare(b.time);
+                            return 0;
+                        }
+                        if (a.date && !b.date) return -1;
+                        if (!a.date && b.date) return 1;
+                        return a.id - b.id;
+                    });
+
+                    return (
+                        <div>
+                            <div className="flex justify-between items-center" style={{ marginBottom: '1rem' }}>
+                                <h3 className="text-xl font-bold text-text-primary">Matchs de Poules</h3>
+                                <button onClick={() => saveData('/api/save-babyfoot-pools', babyfootPools, 'Poules')} disabled={saving} className="bg-green-primary text-bg-primary font-bold rounded-lg" style={{ padding: '0.75rem 1.5rem' }}>
+                                    {saving ? '⏳' : '💾 Sauvegarder'}
+                                </button>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                                {sortedMatches.map(match => (
+                                    <div key={match.id} className={`bg-bg-card border-2 rounded-xl ${match.played ? 'border-green-dark' : 'border-border'}`} style={{ padding: '1rem' }}>
+                                        <div className="flex flex-wrap items-center justify-between" style={{ gap: '1rem' }}>
+                                            <div style={{ minWidth: '80px' }}>
+                                                <div className="flex items-center" style={{ gap: '0.5rem' }}>
+                                                    <span className="text-xs text-text-muted">#{match.id}</span>
+                                                    <select value={match.pool} onChange={(e) => updateMatch(match.id, 'pool', e.target.value)} className="bg-bg-secondary border border-border rounded text-green-light font-bold" style={{ padding: '0.25rem' }}>
+                                                        <option value="A">A</option>
+                                                        <option value="B">B</option>
+                                                    </select>
+                                                </div>
+                                                <div className="text-green-400 font-semibold text-sm">{match.time || '-:-'}</div>
+                                                <div className="text-xs text-text-muted">{match.date || '-/-'}</div>
+                                            </div>
+                                            <div className="flex items-center" style={{ gap: '0.5rem', flex: 1 }}>
+                                                <div style={{ flex: 1, textAlign: 'right' }}>
+                                                    <select value={match.team1} onChange={(e) => updateMatch(match.id, 'team1', e.target.value)} className="bg-bg-secondary border border-border rounded text-text-primary" style={{ padding: '0.25rem' }}>
+                                                        {babyfootTeams.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+                                                    </select>
+                                                </div>
+                                                <ScoreInput value={match.score1} onChange={(v) => updateMatch(match.id, 'score1', v)} />
+                                                <span className="text-text-muted">-</span>
+                                                <ScoreInput value={match.score2} onChange={(v) => updateMatch(match.id, 'score2', v)} />
+                                                <div style={{ flex: 1, textAlign: 'left' }}>
+                                                    <select value={match.team2} onChange={(e) => updateMatch(match.id, 'team2', e.target.value)} className="bg-bg-secondary border border-border rounded text-text-primary" style={{ padding: '0.25rem' }}>
+                                                        {babyfootTeams.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center" style={{ gap: '0.5rem' }}>
+                                                <input type="date" value={match.date || ''} onChange={(e) => updateMatch(match.id, 'date', e.target.value)} className="bg-bg-secondary border border-border rounded text-text-primary text-xs" style={{ padding: '0.25rem' }} />
+                                                <input type="text" value={match.time || ''} onChange={(e) => updateMatch(match.id, 'time', e.target.value)} className="bg-bg-secondary border border-border rounded text-text-primary text-center" style={{ width: '55px', padding: '0.25rem' }} placeholder="12:00" />
+                                                <button onClick={() => updateMatch(match.id, 'played', !match.played)} className={`font-bold rounded-lg ${match.played ? 'bg-green-primary text-bg-primary' : 'bg-bg-secondary text-text-muted border border-dashed border-border'}`} style={{ padding: '0.5rem 0.75rem' }}>
+                                                    {match.played ? '✅' : '⏳'}
+                                                </button>
+                                                <button onClick={() => setBabyfootPools(prev => ({ ...prev, matches: prev.matches.filter(m => m.id !== match.id) }))} className="bg-red-900/50 text-red-400 rounded-lg" style={{ padding: '0.5rem' }}>🗑️</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                            </div>
+                            <button onClick={() => {
+                                const newId = babyfootPools.matches.length > 0 ? Math.max(...babyfootPools.matches.map(m => m.id)) + 1 : 1;
+                                setBabyfootPools(prev => ({ ...prev, matches: [...prev.matches, { id: newId, pool: 'A', team1: babyfootTeams[0]?.id, team2: babyfootTeams[1]?.id, score1: 0, score2: 0, time: '', played: false }] }));
+                            }} className="bg-bg-card text-text-primary font-bold rounded-lg border border-border" style={{ padding: '0.75rem 1.25rem', marginTop: '1rem' }}>
+                                ➕ Ajouter Match
+                            </button>
                         </div>
-                        <button onClick={() => {
-                            const newId = babyfootPools.matches.length > 0 ? Math.max(...babyfootPools.matches.map(m => m.id)) + 1 : 1;
-                            setBabyfootPools(prev => ({ ...prev, matches: [...prev.matches, { id: newId, pool: 'A', team1: babyfootTeams[0]?.id, team2: babyfootTeams[1]?.id, score1: 0, score2: 0, time: '', played: false }] }));
-                        }} className="bg-bg-card text-text-primary font-bold rounded-lg border border-border" style={{ padding: '0.75rem 1.25rem', marginTop: '1rem' }}>
-                            ➕ Ajouter Match
-                        </button>
-                    </div>
-                )}
+                    );
+                })()}
 
                 {/* Bracket Tab */}
                 {activeTab === 'bracket' && babyfootBracket && (
