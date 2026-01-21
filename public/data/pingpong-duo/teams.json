@@ -1,58 +1,58 @@
 [
-    {
-        "id": "team1",
-        "name": "Équipe 1",
-        "players": [
-            "Exaucé HOUNDONOUGBO",
-            "Axel SERAZIN"
-        ]
-    },
-    {
-        "id": "team2",
-        "name": "Équipe 2",
-        "players": [
-            "Théo TONNEAU",
-            "Maëlle CHATET"
-        ]
-    },
-    {
-        "id": "team3",
-        "name": "Équipe 3",
-        "players": [
-            "Ozias GBEDOZIN",
-            "Gilbert TOBOSSI"
-        ]
-    },
-    {
-        "id": "team4",
-        "name": "Équipe 4",
-        "players": [
-            "Franck NKOMA BAYEMA",
-            "Romaric KAKI"
-        ]
-    },
-    {
-        "id": "team5",
-        "name": "Équipe 5",
-        "players": [
-            "Aurel ADISSIN",
-            "Laurent DJOSSOU"
-        ]
-    },
-    {
-        "id": "team6",
-        "name": "Équipe 6",
-        "players": [
-            "Marie-Ange KUITCHE",
-            "Lucas BRISSAUD"
-        ]
-    },
-    {
-        "id": "team7",
-        "name": "Équipe 7",
-        "players": [
-            "Nicolas DIOUBATE",
-            "Théo VILLAIN"
-        ]
-    }
+  {
+    "id": "team1",
+    "name": "Équipe 1",
+    "players": [
+      "Exaucé HOUNDONOUGBO",
+      "Axel SERAZIN"
+    ]
+  },
+  {
+    "id": "team2",
+    "name": "Équipe 2",
+    "players": [
+      "Théo TONNEAU",
+      "Maëlle CHATET"
+    ]
+  },
+  {
+    "id": "team3",
+    "name": "Équipe 3",
+    "players": [
+      "Ozias GBEDOZIN",
+      "Gilbert TOBOSSI"
+    ]
+  },
+  {
+    "id": "team4",
+    "name": "Équipe 4",
+    "players": [
+      "Franck NKOMA BAYEMA",
+      "Romaric KAKI"
+    ]
+  },
+  {
+    "id": "team5",
+    "name": "Équipe 5",
+    "players": [
+      "Aurel ADISSIN",
+      "Laurent DJOSSOU"
+    ]
+  },
+  {
+    "id": "team6",
+    "name": "Équipe 6",
+    "players": [
+      "Marie-Ange KUITCHE",
+      "Lucas BRISSAUD"
+    ]
+  },
+  {
+    "id": "team7",
+    "name": "Équipe 7",
+    "players": [
+      "Nicolas DIOUBATE",
+      "Théo VILLAIN"
+    ]
+  }
 ]
