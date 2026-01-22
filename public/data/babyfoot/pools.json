@@ -71,11 +71,11 @@
       "pool": "A",
       "team1": "alpha",
       "team2": "omega",
-      "score1": 0,
-      "score2": 0,
+      "score1": 1,
+      "score2": 7,
       "time": "12:40",
       "date": "2026-01-22",
-      "played": false
+      "played": true
     },
     {
       "id": 6,
@@ -137,22 +137,22 @@
       "pool": "B",
       "team1": "beta",
       "team2": "sigma",
-      "score1": 0,
-      "score2": 0,
+      "score1": 2,
+      "score2": 3,
       "time": "12:50",
       "date": "2026-01-22",
-      "played": false
+      "played": true
     },
     {
       "id": 12,
       "pool": "B",
       "team1": "gamma",
       "team2": "lambda",
-      "score1": 0,
-      "score2": 0,
+      "score1": 5,
+      "score2": 8,
       "time": "13:00",
       "date": "2026-01-22",
-      "played": false
+      "played": true
     }
   ]
 }
