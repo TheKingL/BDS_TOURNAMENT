@@ -16,6 +16,13 @@ export default function Bracket({ bracket, teams }) {
                 borderLeft: borderLeft ? '2px solid #166534' : undefined
             }}
         >
+            {/* Time & Date display */}
+            {(match.time || match.date) && (
+                <div className="text-center bg-bg-secondary border-b border-border" style={{ padding: '0.25rem', display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
+                    {match.time && <span className="text-xs text-green-400 font-semibold">{match.time}</span>}
+                    {match.date && <span className="text-xs text-text-muted">{new Date(match.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}</span>}
+                </div>
+            )}
             {/* Team 1 */}
             <div
                 className={`flex items-center justify-between border-b border-border ${match.played && match.winner === match.team1 ? 'bg-green-darker/40' : ''
@@ -67,6 +74,12 @@ export default function Bracket({ bracket, teams }) {
                     <span className="text-xs font-bold text-green-light uppercase tracking-wider">
                         🏆 Finale BO3 🏆
                     </span>
+                    {(final.time || final.date) && (
+                        <div style={{ marginTop: '0.25rem', display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
+                            {final.time && <span className="text-xs text-green-400 font-semibold">{final.time}</span>}
+                            {final.date && <span className="text-xs text-text-muted">{new Date(final.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}</span>}
+                        </div>
+                    )}
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '0.75rem' }}>
