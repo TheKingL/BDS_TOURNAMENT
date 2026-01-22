@@ -45,11 +45,11 @@
       "creneau": 1,
       "player1": "nkoma",
       "player2": "tobossi",
-      "score1": 0,
+      "score1": 2,
       "score2": 0,
       "time": "17:55",
       "date": "2026-01-21",
-      "played": false
+      "played": true
     },
     {
       "id": 4,
@@ -67,11 +67,11 @@
       "creneau": 1,
       "player1": "villain",
       "player2": "djossou",
-      "score1": 0,
-      "score2": 0,
+      "score1": 2,
+      "score2": 1,
       "time": "17:45",
       "date": "2026-01-21",
-      "played": false
+      "played": true
     },
     {
       "id": 6,
@@ -111,11 +111,11 @@
       "creneau": 2,
       "player1": "houndonougbo",
       "player2": "adissin",
-      "score1": 0,
+      "score1": 2,
       "score2": 0,
       "time": "17:35",
       "date": "2026-01-21",
-      "played": false
+      "played": true
     },
     {
       "id": 10,
