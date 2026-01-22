@@ -15,8 +15,8 @@
     {
       "id": 2,
       "position": "QF2",
-      "team1": "omega",
-      "team2": "lambda",
+      "team1": "beta",
+      "team2": "delta",
       "score1": 0,
       "score2": 0,
       "time": null,
@@ -27,8 +27,8 @@
     {
       "id": 3,
       "position": "QF3",
-      "team1": "beta",
-      "team2": "delta",
+      "team1": "omega",
+      "team2": "lambda",
       "score1": 0,
       "score2": 0,
       "time": null,
