@@ -221,11 +221,11 @@
       "creneau": 3,
       "player1": "villain",
       "player2": "kuitche",
-      "score1": 0,
+      "score1": 2,
       "score2": 0,
       "time": "18:05",
       "date": "2026-01-22",
-      "played": false
+      "played": true
     },
     {
       "id": 20,
@@ -278,21 +278,21 @@
       "player1": "tobossi",
       "player2": "djossou",
       "score1": 0,
-      "score2": 0,
+      "score2": 2,
       "time": "17:35",
       "date": "2026-01-22",
-      "played": false
+      "played": true
     },
     {
       "id": 25,
       "creneau": 4,
       "player1": "houndonougbo",
       "player2": "nkoma",
-      "score1": 0,
-      "score2": 0,
+      "score1": 2,
+      "score2": 1,
       "time": "18:05",
-      "date": "2026-01-23",
-      "played": false
+      "date": "2026-01-22",
+      "played": true
     },
     {
       "id": 26,
@@ -300,21 +300,21 @@
       "player1": "gbedozin",
       "player2": "villain",
       "score1": 0,
-      "score2": 0,
+      "score2": 2,
       "time": "17:55",
       "date": "2026-01-22",
-      "played": false
+      "played": true
     },
     {
       "id": 27,
       "creneau": 4,
       "player1": "aihou",
       "player2": "adissin",
-      "score1": 0,
+      "score1": 2,
       "score2": 0,
       "time": "17:45",
       "date": "2026-01-22",
-      "played": false
+      "played": true
     },
     {
       "id": 28,
