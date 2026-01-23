@@ -5,12 +5,12 @@
       "position": "QF1",
       "team1": "epsilon",
       "team2": "gamma",
-      "score1": 0,
-      "score2": 0,
+      "score1": 5,
+      "score2": 12,
       "time": "12:45",
       "date": "2026-01-23",
-      "winner": null,
-      "played": false
+      "winner": "gamma",
+      "played": true
     },
     {
       "id": 2,
@@ -41,12 +41,12 @@
       "position": "QF4",
       "team1": "sigma",
       "team2": "alpha",
-      "score1": 0,
-      "score2": 0,
+      "score1": 8,
+      "score2": 6,
       "time": "12:55",
       "date": "2026-01-23",
       "winner": null,
-      "played": false
+      "played": true
     }
   ],
   "semiFinals": [

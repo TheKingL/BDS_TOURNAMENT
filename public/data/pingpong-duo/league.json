@@ -115,11 +115,11 @@
       "creneau": 4,
       "team1": "team5",
       "team2": "team3",
-      "score1": 0,
+      "score1": 2,
       "score2": 0,
       "time": "12:35",
       "date": "2026-01-23",
-      "played": false
+      "played": true
     },
     {
       "id": 11,
@@ -149,10 +149,10 @@
       "team1": "team1",
       "team2": "team6",
       "score1": 0,
-      "score2": 0,
+      "score2": 2,
       "time": "12:45",
       "date": "2026-01-23",
-      "played": false
+      "played": true
     },
     {
       "id": 14,

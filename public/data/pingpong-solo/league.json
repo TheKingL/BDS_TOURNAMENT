@@ -321,11 +321,11 @@
       "creneau": 4,
       "player1": "kuitche",
       "player2": "brissaud",
-      "score1": 0,
+      "score1": 2,
       "score2": 0,
       "time": "15:35",
       "date": "2026-01-23",
-      "played": false
+      "played": true
     },
     {
       "id": 29,
@@ -333,10 +333,11 @@
       "player1": "dioubate",
       "player2": "serazin",
       "score1": 0,
-      "score2": 0,
+      "score2": 2,
       "time": "12:55",
       "date": "2026-01-23",
-      "played": false
+      "played": true,
+      "forfait": "dioubate"
     },
     {
       "id": 30,
@@ -388,10 +389,10 @@
       "player1": "gbedozin",
       "player2": "aihou",
       "score1": 0,
-      "score2": 0,
+      "score2": 2,
       "time": "16:05",
       "date": "2026-01-23",
-      "played": false
+      "played": true
     },
     {
       "id": 35,
@@ -420,11 +421,11 @@
       "creneau": 5,
       "player1": "brissaud",
       "player2": "djossou",
-      "score1": 0,
-      "score2": 0,
+      "score1": 1,
+      "score2": 2,
       "time": "13:15",
       "date": "2026-01-23",
-      "played": false
+      "played": true
     },
     {
       "id": 38,
@@ -455,10 +456,10 @@
       "player1": "kaki",
       "player2": "tonneau",
       "score1": 0,
-      "score2": 0,
+      "score2": 2,
       "time": "13:05",
       "date": "2026-01-23",
-      "played": false
+      "played": true
     }
   ]
 }
