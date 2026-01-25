@@ -3,48 +3,48 @@
         {
             "id": 1,
             "position": "QF1",
-            "player1": null,
-            "player2": null,
+            "player1": "tonneau",
+            "player2": "gbedozin",
             "score1": 0,
             "score2": 0,
-            "time": null,
-            "date": null,
+            "time": "12:45",
+            "date": "2026-01-26",
             "winner": null,
             "played": false
         },
         {
             "id": 2,
             "position": "QF2",
-            "player1": null,
-            "player2": null,
+            "player1": "sarr",
+            "player2": "houndonougbo",
             "score1": 0,
             "score2": 0,
-            "time": null,
-            "date": null,
+            "time": "12:55",
+            "date": "2026-01-26",
             "winner": null,
             "played": false
         },
         {
             "id": 3,
             "position": "QF3",
-            "player1": null,
-            "player2": null,
+            "player1": "villain",
+            "player2": "chatet",
             "score1": 0,
             "score2": 0,
-            "time": null,
-            "date": null,
+            "time": "12:35",
+            "date": "2026-01-27",
             "winner": null,
             "played": false
         },
         {
             "id": 4,
             "position": "QF4",
-            "player1": null,
-            "player2": null,
+            "player1": "aihou",
+            "player2": "djossou",
             "score1": 0,
             "score2": 0,
-            "time": null,
-            "date": null,
+            "time": "12:45",
+            "date": "2026-01-27",
             "winner": null,
             "played": false
         }
@@ -60,7 +60,8 @@
             "time": null,
             "date": null,
             "winner": null,
-            "played": false
+            "played": false,
+            "note": "Vainqueur QF1 vs Vainqueur QF2"
         },
         {
             "id": 2,
@@ -72,7 +73,8 @@
             "time": null,
             "date": null,
             "winner": null,
-            "played": false
+            "played": false,
+            "note": "Vainqueur QF3 vs Vainqueur QF4"
         }
     ],
     "thirdPlace": {

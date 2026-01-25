@@ -161,11 +161,46 @@ export default function AdminPage() {
                 if (round === 'quarterFinals') {
                     newBracket.quarterFinals = [...prev.quarterFinals];
                     newBracket.quarterFinals[index] = { ...prev.quarterFinals[index], [field]: value };
+                    // Auto-calculate winner when played is set to true
+                    if (field === 'played' && value === true) {
+                        const match = newBracket.quarterFinals[index];
+                        if (match.score1 > match.score2) {
+                            newBracket.quarterFinals[index].winner = match.team1;
+                        } else if (match.score2 > match.score1) {
+                            newBracket.quarterFinals[index].winner = match.team2;
+                        }
+                    }
+                    if (field === 'played' && value === false) {
+                        newBracket.quarterFinals[index].winner = null;
+                    }
                 } else if (round === 'semiFinals') {
                     newBracket.semiFinals = [...prev.semiFinals];
                     newBracket.semiFinals[index] = { ...prev.semiFinals[index], [field]: value };
+                    // Auto-calculate winner
+                    if (field === 'played' && value === true) {
+                        const match = newBracket.semiFinals[index];
+                        if (match.score1 > match.score2) {
+                            newBracket.semiFinals[index].winner = match.team1;
+                        } else if (match.score2 > match.score1) {
+                            newBracket.semiFinals[index].winner = match.team2;
+                        }
+                    }
+                    if (field === 'played' && value === false) {
+                        newBracket.semiFinals[index].winner = null;
+                    }
                 } else if (round === 'thirdPlace') {
                     newBracket.thirdPlace = { ...prev.thirdPlace, [field]: value };
+                    // Auto-calculate winner
+                    if (field === 'played' && value === true) {
+                        if (newBracket.thirdPlace.score1 > newBracket.thirdPlace.score2) {
+                            newBracket.thirdPlace.winner = newBracket.thirdPlace.team1;
+                        } else if (newBracket.thirdPlace.score2 > newBracket.thirdPlace.score1) {
+                            newBracket.thirdPlace.winner = newBracket.thirdPlace.team2;
+                        }
+                    }
+                    if (field === 'played' && value === false) {
+                        newBracket.thirdPlace.winner = null;
+                    }
                 }
                 return newBracket;
             });
@@ -281,57 +316,88 @@ export default function AdminPage() {
 
                         {/* QF */}
                         <h4 className="font-bold text-text-primary" style={{ marginBottom: '0.5rem' }}>Quarts de Finale</h4>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0.75rem', marginBottom: '1.5rem' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.75rem', marginBottom: '1.5rem' }}>
                             {babyfootBracket.quarterFinals.map((m, idx) => (
                                 <div key={idx} className={`bg-bg-card border-2 rounded-xl ${m.played ? 'border-green-dark' : 'border-border'}`} style={{ padding: '1rem' }}>
-                                    <div className="flex items-center justify-between" style={{ gap: '0.5rem' }}>
+                                    {/* Header with QF number and toggle */}
+                                    <div className="flex items-center justify-between" style={{ marginBottom: '0.75rem' }}>
                                         <span className="text-xs text-green-light font-bold">QF{idx + 1}</span>
-                                        <span className="text-text-primary font-semibold">{getTeamName(m.team1)}</span>
-                                        <ScoreInput value={m.score1} onChange={(v) => updateBracketMatch('quarterFinals', idx, 'score1', v)} />
-                                        <span className="text-text-muted">-</span>
-                                        <ScoreInput value={m.score2} onChange={(v) => updateBracketMatch('quarterFinals', idx, 'score2', v)} />
-                                        <span className="text-text-primary font-semibold">{getTeamName(m.team2)}</span>
-                                        <button onClick={() => updateBracketMatch('quarterFinals', idx, 'played', !m.played)} className={`rounded-lg ${m.played ? 'bg-green-primary text-bg-primary' : 'bg-bg-secondary text-text-muted'}`} style={{ padding: '0.25rem 0.5rem' }}>
-                                            {m.played ? '✅' : '⏳'}
+                                        <button onClick={() => updateBracketMatch('quarterFinals', idx, 'played', !m.played)} className={`rounded-lg ${m.played ? 'bg-green-primary text-bg-primary' : 'bg-bg-secondary text-text-muted'}`} style={{ padding: '0.25rem 0.75rem', fontSize: '0.875rem' }}>
+                                            {m.played ? '✅ Terminé' : '⏳ En cours'}
                                         </button>
                                     </div>
+                                    {/* Team 1 */}
+                                    <div className={`flex items-center justify-between rounded-lg ${m.winner === m.team1 ? 'bg-green-dark/30' : 'bg-bg-secondary'}`} style={{ padding: '0.5rem 0.75rem', marginBottom: '0.5rem' }}>
+                                        <span className={`font-semibold ${m.winner === m.team1 ? 'text-green-light' : 'text-text-primary'}`}>{getTeamName(m.team1)}</span>
+                                        <ScoreInput value={m.score1} onChange={(v) => updateBracketMatch('quarterFinals', idx, 'score1', v)} />
+                                    </div>
+                                    {/* Team 2 */}
+                                    <div className={`flex items-center justify-between rounded-lg ${m.winner === m.team2 ? 'bg-green-dark/30' : 'bg-bg-secondary'}`} style={{ padding: '0.5rem 0.75rem' }}>
+                                        <span className={`font-semibold ${m.winner === m.team2 ? 'text-green-light' : 'text-text-primary'}`}>{getTeamName(m.team2)}</span>
+                                        <ScoreInput value={m.score2} onChange={(v) => updateBracketMatch('quarterFinals', idx, 'score2', v)} />
+                                    </div>
+                                    {/* Winner indicator */}
+                                    {m.winner && (
+                                        <div className="text-center text-xs text-green-400 mt-2">🏆 Vainqueur: {getTeamName(m.winner)}</div>
+                                    )}
                                 </div>
                             ))}
                         </div>
 
                         {/* SF */}
                         <h4 className="font-bold text-text-primary" style={{ marginBottom: '0.5rem' }}>Demi-Finales</h4>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0.75rem', marginBottom: '1.5rem' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.75rem', marginBottom: '1.5rem' }}>
                             {babyfootBracket.semiFinals.map((m, idx) => (
                                 <div key={idx} className={`bg-bg-card border-2 rounded-xl ${m.played ? 'border-green-dark' : 'border-border'}`} style={{ padding: '1rem' }}>
-                                    <div className="flex items-center justify-between" style={{ gap: '0.5rem' }}>
+                                    {/* Header */}
+                                    <div className="flex items-center justify-between" style={{ marginBottom: '0.75rem' }}>
                                         <span className="text-xs text-green-light font-bold">SF{idx + 1}</span>
-                                        <span className="text-text-primary font-semibold">{getTeamName(m.team1)}</span>
-                                        <ScoreInput value={m.score1} onChange={(v) => updateBracketMatch('semiFinals', idx, 'score1', v)} />
-                                        <span className="text-text-muted">-</span>
-                                        <ScoreInput value={m.score2} onChange={(v) => updateBracketMatch('semiFinals', idx, 'score2', v)} />
-                                        <span className="text-text-primary font-semibold">{getTeamName(m.team2)}</span>
-                                        <button onClick={() => updateBracketMatch('semiFinals', idx, 'played', !m.played)} className={`rounded-lg ${m.played ? 'bg-green-primary text-bg-primary' : 'bg-bg-secondary text-text-muted'}`} style={{ padding: '0.25rem 0.5rem' }}>
-                                            {m.played ? '✅' : '⏳'}
+                                        <button onClick={() => updateBracketMatch('semiFinals', idx, 'played', !m.played)} className={`rounded-lg ${m.played ? 'bg-green-primary text-bg-primary' : 'bg-bg-secondary text-text-muted'}`} style={{ padding: '0.25rem 0.75rem', fontSize: '0.875rem' }}>
+                                            {m.played ? '✅ Terminé' : '⏳ En cours'}
                                         </button>
                                     </div>
+                                    {/* Team 1 */}
+                                    <div className={`flex items-center justify-between rounded-lg ${m.winner === m.team1 ? 'bg-green-dark/30' : 'bg-bg-secondary'}`} style={{ padding: '0.5rem 0.75rem', marginBottom: '0.5rem' }}>
+                                        <span className={`font-semibold ${m.winner === m.team1 ? 'text-green-light' : 'text-text-primary'}`}>{getTeamName(m.team1)}</span>
+                                        <ScoreInput value={m.score1} onChange={(v) => updateBracketMatch('semiFinals', idx, 'score1', v)} />
+                                    </div>
+                                    {/* Team 2 */}
+                                    <div className={`flex items-center justify-between rounded-lg ${m.winner === m.team2 ? 'bg-green-dark/30' : 'bg-bg-secondary'}`} style={{ padding: '0.5rem 0.75rem' }}>
+                                        <span className={`font-semibold ${m.winner === m.team2 ? 'text-green-light' : 'text-text-primary'}`}>{getTeamName(m.team2)}</span>
+                                        <ScoreInput value={m.score2} onChange={(v) => updateBracketMatch('semiFinals', idx, 'score2', v)} />
+                                    </div>
+                                    {/* Winner */}
+                                    {m.winner && (
+                                        <div className="text-center text-xs text-green-400 mt-2">🏆 Vainqueur: {getTeamName(m.winner)}</div>
+                                    )}
                                 </div>
                             ))}
                         </div>
 
                         {/* 3rd Place */}
                         <h4 className="font-bold text-amber-400" style={{ marginBottom: '0.5rem' }}>🥉 Petite Finale</h4>
-                        <div className={`bg-bg-card border-2 rounded-xl ${babyfootBracket.thirdPlace.played ? 'border-amber-600' : 'border-border'}`} style={{ padding: '1rem', marginBottom: '1.5rem' }}>
-                            <div className="flex items-center justify-center" style={{ gap: '0.5rem' }}>
-                                <span className="text-text-primary font-semibold">{getTeamName(babyfootBracket.thirdPlace.team1)}</span>
-                                <ScoreInput value={babyfootBracket.thirdPlace.score1} onChange={(v) => updateBracketMatch('thirdPlace', 0, 'score1', v)} />
-                                <span className="text-text-muted">-</span>
-                                <ScoreInput value={babyfootBracket.thirdPlace.score2} onChange={(v) => updateBracketMatch('thirdPlace', 0, 'score2', v)} />
-                                <span className="text-text-primary font-semibold">{getTeamName(babyfootBracket.thirdPlace.team2)}</span>
-                                <button onClick={() => updateBracketMatch('thirdPlace', 0, 'played', !babyfootBracket.thirdPlace.played)} className={`rounded-lg ${babyfootBracket.thirdPlace.played ? 'bg-green-primary text-bg-primary' : 'bg-bg-secondary text-text-muted'}`} style={{ padding: '0.25rem 0.5rem' }}>
-                                    {babyfootBracket.thirdPlace.played ? '✅' : '⏳'}
+                        <div className={`bg-bg-card border-2 rounded-xl ${babyfootBracket.thirdPlace.played ? 'border-amber-600' : 'border-border'}`} style={{ padding: '1rem', marginBottom: '1.5rem', maxWidth: '400px' }}>
+                            {/* Header */}
+                            <div className="flex items-center justify-between" style={{ marginBottom: '0.75rem' }}>
+                                <span className="text-xs text-amber-400 font-bold">3ème place</span>
+                                <button onClick={() => updateBracketMatch('thirdPlace', 0, 'played', !babyfootBracket.thirdPlace.played)} className={`rounded-lg ${babyfootBracket.thirdPlace.played ? 'bg-amber-500 text-bg-primary' : 'bg-bg-secondary text-text-muted'}`} style={{ padding: '0.25rem 0.75rem', fontSize: '0.875rem' }}>
+                                    {babyfootBracket.thirdPlace.played ? '✅ Terminé' : '⏳ En cours'}
                                 </button>
                             </div>
+                            {/* Team 1 */}
+                            <div className={`flex items-center justify-between rounded-lg ${babyfootBracket.thirdPlace.winner === babyfootBracket.thirdPlace.team1 ? 'bg-amber-600/30' : 'bg-bg-secondary'}`} style={{ padding: '0.5rem 0.75rem', marginBottom: '0.5rem' }}>
+                                <span className={`font-semibold ${babyfootBracket.thirdPlace.winner === babyfootBracket.thirdPlace.team1 ? 'text-amber-400' : 'text-text-primary'}`}>{getTeamName(babyfootBracket.thirdPlace.team1)}</span>
+                                <ScoreInput value={babyfootBracket.thirdPlace.score1} onChange={(v) => updateBracketMatch('thirdPlace', 0, 'score1', v)} />
+                            </div>
+                            {/* Team 2 */}
+                            <div className={`flex items-center justify-between rounded-lg ${babyfootBracket.thirdPlace.winner === babyfootBracket.thirdPlace.team2 ? 'bg-amber-600/30' : 'bg-bg-secondary'}`} style={{ padding: '0.5rem 0.75rem' }}>
+                                <span className={`font-semibold ${babyfootBracket.thirdPlace.winner === babyfootBracket.thirdPlace.team2 ? 'text-amber-400' : 'text-text-primary'}`}>{getTeamName(babyfootBracket.thirdPlace.team2)}</span>
+                                <ScoreInput value={babyfootBracket.thirdPlace.score2} onChange={(v) => updateBracketMatch('thirdPlace', 0, 'score2', v)} />
+                            </div>
+                            {/* Winner */}
+                            {babyfootBracket.thirdPlace.winner && (
+                                <div className="text-center text-xs text-amber-400 mt-2">🥉 3ème: {getTeamName(babyfootBracket.thirdPlace.winner)}</div>
+                            )}
                         </div>
 
                         {/* Final BO3 */}
@@ -520,11 +586,28 @@ export default function AdminPage() {
                             if (round === 'quarterFinals') {
                                 newBracket.quarterFinals = [...prev.quarterFinals];
                                 newBracket.quarterFinals[index] = { ...prev.quarterFinals[index], [field]: value };
+                                if (field === 'played' && value === true) {
+                                    const match = newBracket.quarterFinals[index];
+                                    if (match.score1 > match.score2) newBracket.quarterFinals[index].winner = match.player1;
+                                    else if (match.score2 > match.score1) newBracket.quarterFinals[index].winner = match.player2;
+                                }
+                                if (field === 'played' && value === false) newBracket.quarterFinals[index].winner = null;
                             } else if (round === 'semiFinals') {
                                 newBracket.semiFinals = [...prev.semiFinals];
                                 newBracket.semiFinals[index] = { ...prev.semiFinals[index], [field]: value };
+                                if (field === 'played' && value === true) {
+                                    const match = newBracket.semiFinals[index];
+                                    if (match.score1 > match.score2) newBracket.semiFinals[index].winner = match.player1;
+                                    else if (match.score2 > match.score1) newBracket.semiFinals[index].winner = match.player2;
+                                }
+                                if (field === 'played' && value === false) newBracket.semiFinals[index].winner = null;
                             } else if (round === 'thirdPlace') {
                                 newBracket.thirdPlace = { ...prev.thirdPlace, [field]: value };
+                                if (field === 'played' && value === true) {
+                                    if (newBracket.thirdPlace.score1 > newBracket.thirdPlace.score2) newBracket.thirdPlace.winner = newBracket.thirdPlace.player1;
+                                    else if (newBracket.thirdPlace.score2 > newBracket.thirdPlace.score1) newBracket.thirdPlace.winner = newBracket.thirdPlace.player2;
+                                }
+                                if (field === 'played' && value === false) newBracket.thirdPlace.winner = null;
                             }
                             return newBracket;
                         });
@@ -546,51 +629,70 @@ export default function AdminPage() {
 
                             {/* QF */}
                             <h4 className="font-bold text-blue-400" style={{ marginBottom: '0.5rem' }}>Quarts de Finale</h4>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0.75rem', marginBottom: '1.5rem' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.75rem', marginBottom: '1.5rem' }}>
                                 {soloBracket.quarterFinals.map((m, idx) => (
-                                    <div key={idx} className={`bg-bg-secondary border-2 rounded-xl ${m.played ? 'border-blue-500' : 'border-border'}`} style={{ padding: '0.75rem' }}>
-                                        <div className="flex items-center justify-between" style={{ gap: '0.5rem' }}>
+                                    <div key={idx} className={`bg-bg-secondary border-2 rounded-xl ${m.played ? 'border-blue-500' : 'border-border'}`} style={{ padding: '1rem' }}>
+                                        <div className="flex items-center justify-between" style={{ marginBottom: '0.75rem' }}>
                                             <span className="text-xs text-blue-400 font-bold">QF{idx + 1}</span>
-                                            <span className="text-text-primary font-semibold text-sm">{getPlayerName(m.player1)}</span>
-                                            <ScoreInput value={m.score1} onChange={(v) => updateBracketMatch('quarterFinals', idx, 'score1', v)} />
-                                            <span className="text-text-muted">-</span>
-                                            <ScoreInput value={m.score2} onChange={(v) => updateBracketMatch('quarterFinals', idx, 'score2', v)} />
-                                            <span className="text-text-primary font-semibold text-sm">{getPlayerName(m.player2)}</span>
-                                            <button onClick={() => updateBracketMatch('quarterFinals', idx, 'played', !m.played)} className={`rounded-lg ${m.played ? 'bg-blue-500 text-white' : 'bg-bg-card text-text-muted'}`} style={{ padding: '0.25rem 0.5rem' }}>{m.played ? '✅' : '⏳'}</button>
+                                            <button onClick={() => updateBracketMatch('quarterFinals', idx, 'played', !m.played)} className={`rounded-lg ${m.played ? 'bg-blue-500 text-white' : 'bg-bg-card text-text-muted'}`} style={{ padding: '0.25rem 0.75rem', fontSize: '0.875rem' }}>
+                                                {m.played ? '✅ Terminé' : '⏳ En cours'}
+                                            </button>
                                         </div>
+                                        <div className={`flex items-center justify-between rounded-lg ${m.winner === m.player1 ? 'bg-blue-500/30' : 'bg-bg-card'}`} style={{ padding: '0.5rem 0.75rem', marginBottom: '0.5rem' }}>
+                                            <span className={`font-semibold ${m.winner === m.player1 ? 'text-blue-400' : 'text-text-primary'}`}>{getPlayerName(m.player1)}</span>
+                                            <ScoreInput value={m.score1} onChange={(v) => updateBracketMatch('quarterFinals', idx, 'score1', v)} />
+                                        </div>
+                                        <div className={`flex items-center justify-between rounded-lg ${m.winner === m.player2 ? 'bg-blue-500/30' : 'bg-bg-card'}`} style={{ padding: '0.5rem 0.75rem' }}>
+                                            <span className={`font-semibold ${m.winner === m.player2 ? 'text-blue-400' : 'text-text-primary'}`}>{getPlayerName(m.player2)}</span>
+                                            <ScoreInput value={m.score2} onChange={(v) => updateBracketMatch('quarterFinals', idx, 'score2', v)} />
+                                        </div>
+                                        {m.winner && <div className="text-center text-xs text-blue-400 mt-2">🏆 Vainqueur: {getPlayerName(m.winner)}</div>}
                                     </div>
                                 ))}
                             </div>
 
                             {/* SF */}
                             <h4 className="font-bold text-blue-400" style={{ marginBottom: '0.5rem' }}>Demi-Finales</h4>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0.75rem', marginBottom: '1.5rem' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.75rem', marginBottom: '1.5rem' }}>
                                 {soloBracket.semiFinals.map((m, idx) => (
-                                    <div key={idx} className={`bg-bg-secondary border-2 rounded-xl ${m.played ? 'border-blue-500' : 'border-border'}`} style={{ padding: '0.75rem' }}>
-                                        <div className="flex items-center justify-between" style={{ gap: '0.5rem' }}>
+                                    <div key={idx} className={`bg-bg-secondary border-2 rounded-xl ${m.played ? 'border-blue-500' : 'border-border'}`} style={{ padding: '1rem' }}>
+                                        <div className="flex items-center justify-between" style={{ marginBottom: '0.75rem' }}>
                                             <span className="text-xs text-blue-400 font-bold">SF{idx + 1}</span>
-                                            <span className="text-text-primary font-semibold text-sm">{getPlayerName(m.player1)}</span>
-                                            <ScoreInput value={m.score1} onChange={(v) => updateBracketMatch('semiFinals', idx, 'score1', v)} />
-                                            <span className="text-text-muted">-</span>
-                                            <ScoreInput value={m.score2} onChange={(v) => updateBracketMatch('semiFinals', idx, 'score2', v)} />
-                                            <span className="text-text-primary font-semibold text-sm">{getPlayerName(m.player2)}</span>
-                                            <button onClick={() => updateBracketMatch('semiFinals', idx, 'played', !m.played)} className={`rounded-lg ${m.played ? 'bg-blue-500 text-white' : 'bg-bg-card text-text-muted'}`} style={{ padding: '0.25rem 0.5rem' }}>{m.played ? '✅' : '⏳'}</button>
+                                            <button onClick={() => updateBracketMatch('semiFinals', idx, 'played', !m.played)} className={`rounded-lg ${m.played ? 'bg-blue-500 text-white' : 'bg-bg-card text-text-muted'}`} style={{ padding: '0.25rem 0.75rem', fontSize: '0.875rem' }}>
+                                                {m.played ? '✅ Terminé' : '⏳ En cours'}
+                                            </button>
                                         </div>
+                                        <div className={`flex items-center justify-between rounded-lg ${m.winner === m.player1 ? 'bg-blue-500/30' : 'bg-bg-card'}`} style={{ padding: '0.5rem 0.75rem', marginBottom: '0.5rem' }}>
+                                            <span className={`font-semibold ${m.winner === m.player1 ? 'text-blue-400' : 'text-text-primary'}`}>{getPlayerName(m.player1)}</span>
+                                            <ScoreInput value={m.score1} onChange={(v) => updateBracketMatch('semiFinals', idx, 'score1', v)} />
+                                        </div>
+                                        <div className={`flex items-center justify-between rounded-lg ${m.winner === m.player2 ? 'bg-blue-500/30' : 'bg-bg-card'}`} style={{ padding: '0.5rem 0.75rem' }}>
+                                            <span className={`font-semibold ${m.winner === m.player2 ? 'text-blue-400' : 'text-text-primary'}`}>{getPlayerName(m.player2)}</span>
+                                            <ScoreInput value={m.score2} onChange={(v) => updateBracketMatch('semiFinals', idx, 'score2', v)} />
+                                        </div>
+                                        {m.winner && <div className="text-center text-xs text-blue-400 mt-2">🏆 Vainqueur: {getPlayerName(m.winner)}</div>}
                                     </div>
                                 ))}
                             </div>
 
                             {/* 3rd Place */}
                             <h4 className="font-bold text-amber-400" style={{ marginBottom: '0.5rem' }}>🥉 Petite Finale</h4>
-                            <div className={`bg-bg-secondary border-2 rounded-xl ${soloBracket.thirdPlace.played ? 'border-amber-500' : 'border-border'}`} style={{ padding: '0.75rem', marginBottom: '1.5rem' }}>
-                                <div className="flex items-center justify-center" style={{ gap: '0.5rem' }}>
-                                    <span className="text-text-primary font-semibold">{getPlayerName(soloBracket.thirdPlace.player1)}</span>
-                                    <ScoreInput value={soloBracket.thirdPlace.score1} onChange={(v) => updateBracketMatch('thirdPlace', 0, 'score1', v)} />
-                                    <span className="text-text-muted">-</span>
-                                    <ScoreInput value={soloBracket.thirdPlace.score2} onChange={(v) => updateBracketMatch('thirdPlace', 0, 'score2', v)} />
-                                    <span className="text-text-primary font-semibold">{getPlayerName(soloBracket.thirdPlace.player2)}</span>
-                                    <button onClick={() => updateBracketMatch('thirdPlace', 0, 'played', !soloBracket.thirdPlace.played)} className={`rounded-lg ${soloBracket.thirdPlace.played ? 'bg-amber-500 text-bg-primary' : 'bg-bg-card text-text-muted'}`} style={{ padding: '0.25rem 0.5rem' }}>{soloBracket.thirdPlace.played ? '✅' : '⏳'}</button>
+                            <div className={`bg-bg-secondary border-2 rounded-xl ${soloBracket.thirdPlace.played ? 'border-amber-500' : 'border-border'}`} style={{ padding: '1rem', marginBottom: '1.5rem', maxWidth: '400px' }}>
+                                <div className="flex items-center justify-between" style={{ marginBottom: '0.75rem' }}>
+                                    <span className="text-xs text-amber-400 font-bold">3ème place</span>
+                                    <button onClick={() => updateBracketMatch('thirdPlace', 0, 'played', !soloBracket.thirdPlace.played)} className={`rounded-lg ${soloBracket.thirdPlace.played ? 'bg-amber-500 text-bg-primary' : 'bg-bg-card text-text-muted'}`} style={{ padding: '0.25rem 0.75rem', fontSize: '0.875rem' }}>
+                                        {soloBracket.thirdPlace.played ? '✅ Terminé' : '⏳ En cours'}
+                                    </button>
                                 </div>
+                                <div className={`flex items-center justify-between rounded-lg ${soloBracket.thirdPlace.winner === soloBracket.thirdPlace.player1 ? 'bg-amber-500/30' : 'bg-bg-card'}`} style={{ padding: '0.5rem 0.75rem', marginBottom: '0.5rem' }}>
+                                    <span className={`font-semibold ${soloBracket.thirdPlace.winner === soloBracket.thirdPlace.player1 ? 'text-amber-400' : 'text-text-primary'}`}>{getPlayerName(soloBracket.thirdPlace.player1)}</span>
+                                    <ScoreInput value={soloBracket.thirdPlace.score1} onChange={(v) => updateBracketMatch('thirdPlace', 0, 'score1', v)} />
+                                </div>
+                                <div className={`flex items-center justify-between rounded-lg ${soloBracket.thirdPlace.winner === soloBracket.thirdPlace.player2 ? 'bg-amber-500/30' : 'bg-bg-card'}`} style={{ padding: '0.5rem 0.75rem' }}>
+                                    <span className={`font-semibold ${soloBracket.thirdPlace.winner === soloBracket.thirdPlace.player2 ? 'text-amber-400' : 'text-text-primary'}`}>{getPlayerName(soloBracket.thirdPlace.player2)}</span>
+                                    <ScoreInput value={soloBracket.thirdPlace.score2} onChange={(v) => updateBracketMatch('thirdPlace', 0, 'score2', v)} />
+                                </div>
+                                {soloBracket.thirdPlace.winner && <div className="text-center text-xs text-amber-400 mt-2">🥉 3ème: {getPlayerName(soloBracket.thirdPlace.winner)}</div>}
                             </div>
 
                             {/* Final BO3 */}
@@ -755,8 +857,19 @@ export default function AdminPage() {
                             if (round === 'semiFinals') {
                                 newBracket.semiFinals = [...prev.semiFinals];
                                 newBracket.semiFinals[index] = { ...prev.semiFinals[index], [field]: value };
+                                if (field === 'played' && value === true) {
+                                    const match = newBracket.semiFinals[index];
+                                    if (match.score1 > match.score2) newBracket.semiFinals[index].winner = match.team1;
+                                    else if (match.score2 > match.score1) newBracket.semiFinals[index].winner = match.team2;
+                                }
+                                if (field === 'played' && value === false) newBracket.semiFinals[index].winner = null;
                             } else if (round === 'thirdPlace') {
                                 newBracket.thirdPlace = { ...prev.thirdPlace, [field]: value };
+                                if (field === 'played' && value === true) {
+                                    if (newBracket.thirdPlace.score1 > newBracket.thirdPlace.score2) newBracket.thirdPlace.winner = newBracket.thirdPlace.team1;
+                                    else if (newBracket.thirdPlace.score2 > newBracket.thirdPlace.score1) newBracket.thirdPlace.winner = newBracket.thirdPlace.team2;
+                                }
+                                if (field === 'played' && value === false) newBracket.thirdPlace.winner = null;
                             }
                             return newBracket;
                         });
@@ -778,33 +891,46 @@ export default function AdminPage() {
 
                             {/* SF (Duo starts here, no QF) */}
                             <h4 className="font-bold text-purple-400" style={{ marginBottom: '0.5rem' }}>Demi-Finales</h4>
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0.75rem', marginBottom: '1.5rem' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.75rem', marginBottom: '1.5rem' }}>
                                 {duoBracket.semiFinals.map((m, idx) => (
-                                    <div key={idx} className={`bg-bg-secondary border-2 rounded-xl ${m.played ? 'border-purple-500' : 'border-border'}`} style={{ padding: '0.75rem' }}>
-                                        <div className="flex items-center justify-between" style={{ gap: '0.5rem' }}>
+                                    <div key={idx} className={`bg-bg-secondary border-2 rounded-xl ${m.played ? 'border-purple-500' : 'border-border'}`} style={{ padding: '1rem' }}>
+                                        <div className="flex items-center justify-between" style={{ marginBottom: '0.75rem' }}>
                                             <span className="text-xs text-purple-400 font-bold">SF{idx + 1}</span>
-                                            <span className="text-text-primary font-semibold text-sm">{getTeamName(m.team1)}</span>
-                                            <ScoreInput value={m.score1} onChange={(v) => updateBracketMatch('semiFinals', idx, 'score1', v)} />
-                                            <span className="text-text-muted">-</span>
-                                            <ScoreInput value={m.score2} onChange={(v) => updateBracketMatch('semiFinals', idx, 'score2', v)} />
-                                            <span className="text-text-primary font-semibold text-sm">{getTeamName(m.team2)}</span>
-                                            <button onClick={() => updateBracketMatch('semiFinals', idx, 'played', !m.played)} className={`rounded-lg ${m.played ? 'bg-purple-500 text-white' : 'bg-bg-card text-text-muted'}`} style={{ padding: '0.25rem 0.5rem' }}>{m.played ? '✅' : '⏳'}</button>
+                                            <button onClick={() => updateBracketMatch('semiFinals', idx, 'played', !m.played)} className={`rounded-lg ${m.played ? 'bg-purple-500 text-white' : 'bg-bg-card text-text-muted'}`} style={{ padding: '0.25rem 0.75rem', fontSize: '0.875rem' }}>
+                                                {m.played ? '✅ Terminé' : '⏳ En cours'}
+                                            </button>
                                         </div>
+                                        <div className={`flex items-center justify-between rounded-lg ${m.winner === m.team1 ? 'bg-purple-500/30' : 'bg-bg-card'}`} style={{ padding: '0.5rem 0.75rem', marginBottom: '0.5rem' }}>
+                                            <span className={`font-semibold ${m.winner === m.team1 ? 'text-purple-400' : 'text-text-primary'}`}>{getTeamName(m.team1)}</span>
+                                            <ScoreInput value={m.score1} onChange={(v) => updateBracketMatch('semiFinals', idx, 'score1', v)} />
+                                        </div>
+                                        <div className={`flex items-center justify-between rounded-lg ${m.winner === m.team2 ? 'bg-purple-500/30' : 'bg-bg-card'}`} style={{ padding: '0.5rem 0.75rem' }}>
+                                            <span className={`font-semibold ${m.winner === m.team2 ? 'text-purple-400' : 'text-text-primary'}`}>{getTeamName(m.team2)}</span>
+                                            <ScoreInput value={m.score2} onChange={(v) => updateBracketMatch('semiFinals', idx, 'score2', v)} />
+                                        </div>
+                                        {m.winner && <div className="text-center text-xs text-purple-400 mt-2">🏆 Vainqueur: {getTeamName(m.winner)}</div>}
                                     </div>
                                 ))}
                             </div>
 
                             {/* 3rd Place */}
                             <h4 className="font-bold text-amber-400" style={{ marginBottom: '0.5rem' }}>🥉 Petite Finale</h4>
-                            <div className={`bg-bg-secondary border-2 rounded-xl ${duoBracket.thirdPlace.played ? 'border-amber-500' : 'border-border'}`} style={{ padding: '0.75rem', marginBottom: '1.5rem' }}>
-                                <div className="flex items-center justify-center" style={{ gap: '0.5rem' }}>
-                                    <span className="text-text-primary font-semibold">{getTeamName(duoBracket.thirdPlace.team1)}</span>
-                                    <ScoreInput value={duoBracket.thirdPlace.score1} onChange={(v) => updateBracketMatch('thirdPlace', 0, 'score1', v)} />
-                                    <span className="text-text-muted">-</span>
-                                    <ScoreInput value={duoBracket.thirdPlace.score2} onChange={(v) => updateBracketMatch('thirdPlace', 0, 'score2', v)} />
-                                    <span className="text-text-primary font-semibold">{getTeamName(duoBracket.thirdPlace.team2)}</span>
-                                    <button onClick={() => updateBracketMatch('thirdPlace', 0, 'played', !duoBracket.thirdPlace.played)} className={`rounded-lg ${duoBracket.thirdPlace.played ? 'bg-amber-500 text-bg-primary' : 'bg-bg-card text-text-muted'}`} style={{ padding: '0.25rem 0.5rem' }}>{duoBracket.thirdPlace.played ? '✅' : '⏳'}</button>
+                            <div className={`bg-bg-secondary border-2 rounded-xl ${duoBracket.thirdPlace.played ? 'border-amber-500' : 'border-border'}`} style={{ padding: '1rem', marginBottom: '1.5rem', maxWidth: '400px' }}>
+                                <div className="flex items-center justify-between" style={{ marginBottom: '0.75rem' }}>
+                                    <span className="text-xs text-amber-400 font-bold">3ème place</span>
+                                    <button onClick={() => updateBracketMatch('thirdPlace', 0, 'played', !duoBracket.thirdPlace.played)} className={`rounded-lg ${duoBracket.thirdPlace.played ? 'bg-amber-500 text-bg-primary' : 'bg-bg-card text-text-muted'}`} style={{ padding: '0.25rem 0.75rem', fontSize: '0.875rem' }}>
+                                        {duoBracket.thirdPlace.played ? '✅ Terminé' : '⏳ En cours'}
+                                    </button>
                                 </div>
+                                <div className={`flex items-center justify-between rounded-lg ${duoBracket.thirdPlace.winner === duoBracket.thirdPlace.team1 ? 'bg-amber-500/30' : 'bg-bg-card'}`} style={{ padding: '0.5rem 0.75rem', marginBottom: '0.5rem' }}>
+                                    <span className={`font-semibold ${duoBracket.thirdPlace.winner === duoBracket.thirdPlace.team1 ? 'text-amber-400' : 'text-text-primary'}`}>{getTeamName(duoBracket.thirdPlace.team1)}</span>
+                                    <ScoreInput value={duoBracket.thirdPlace.score1} onChange={(v) => updateBracketMatch('thirdPlace', 0, 'score1', v)} />
+                                </div>
+                                <div className={`flex items-center justify-between rounded-lg ${duoBracket.thirdPlace.winner === duoBracket.thirdPlace.team2 ? 'bg-amber-500/30' : 'bg-bg-card'}`} style={{ padding: '0.5rem 0.75rem' }}>
+                                    <span className={`font-semibold ${duoBracket.thirdPlace.winner === duoBracket.thirdPlace.team2 ? 'text-amber-400' : 'text-text-primary'}`}>{getTeamName(duoBracket.thirdPlace.team2)}</span>
+                                    <ScoreInput value={duoBracket.thirdPlace.score2} onChange={(v) => updateBracketMatch('thirdPlace', 0, 'score2', v)} />
+                                </div>
+                                {duoBracket.thirdPlace.winner && <div className="text-center text-xs text-amber-400 mt-2">🥉 3ème: {getTeamName(duoBracket.thirdPlace.winner)}</div>}
                             </div>
 
                             {/* Final BO3 */}

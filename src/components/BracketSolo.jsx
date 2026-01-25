@@ -6,6 +6,18 @@ export default function BracketSolo({ bracket, players }) {
         return player ? player.name : playerId;
     };
 
+    // Format name as "Prénom N." for compact display
+    const getFirstName = (playerId) => {
+        if (!playerId) return '???';
+        const player = players.find(p => p.id === playerId);
+        if (!player) return playerId;
+        const parts = player.name.split(' ');
+        if (parts.length >= 2) {
+            return `${parts[0]} ${parts[1].charAt(0)}.`;
+        }
+        return player.name;
+    };
+
     // Match component
     const MatchBlock = ({ match, borderRight = false, borderLeft = false }) => (
         <div
@@ -33,7 +45,7 @@ export default function BracketSolo({ bracket, players }) {
                     ? match.winner === match.player1 ? 'text-blue-400' : 'text-red-400'
                     : 'text-text-primary'
                     }`} style={{ maxWidth: '100px' }}>
-                    {getPlayerName(match.player1)}
+                    {getFirstName(match.player1)}
                 </span>
                 <span className={`font-bold text-sm ${match.played && match.winner === match.player1 ? 'text-blue-400' : 'text-text-muted'}`}>
                     {match.score1 ?? '-'}
@@ -48,7 +60,7 @@ export default function BracketSolo({ bracket, players }) {
                     ? match.winner === match.player2 ? 'text-blue-400' : 'text-red-400'
                     : 'text-text-primary'
                     }`} style={{ maxWidth: '100px' }}>
-                    {getPlayerName(match.player2)}
+                    {getFirstName(match.player2)}
                 </span>
                 <span className={`font-bold text-sm ${match.played && match.winner === match.player2 ? 'text-blue-400' : 'text-text-muted'}`}>
                     {match.score2 ?? '-'}
