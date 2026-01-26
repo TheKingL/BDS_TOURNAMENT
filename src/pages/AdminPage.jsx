@@ -173,6 +173,15 @@ export default function AdminPage() {
                     if (field === 'played' && value === false) {
                         newBracket.quarterFinals[index].winner = null;
                     }
+                    // Auto-propagate QF winners to SF
+                    // QF1 & QF2 winners → SF1, QF3 & QF4 winners → SF2
+                    newBracket.semiFinals = [...prev.semiFinals];
+                    const qf1Winner = newBracket.quarterFinals[0]?.winner;
+                    const qf2Winner = newBracket.quarterFinals[1]?.winner;
+                    const qf3Winner = newBracket.quarterFinals[2]?.winner;
+                    const qf4Winner = newBracket.quarterFinals[3]?.winner;
+                    newBracket.semiFinals[0] = { ...newBracket.semiFinals[0], team1: qf1Winner, team2: qf2Winner };
+                    newBracket.semiFinals[1] = { ...newBracket.semiFinals[1], team1: qf3Winner, team2: qf4Winner };
                 } else if (round === 'semiFinals') {
                     newBracket.semiFinals = [...prev.semiFinals];
                     newBracket.semiFinals[index] = { ...prev.semiFinals[index], [field]: value };
@@ -188,6 +197,17 @@ export default function AdminPage() {
                     if (field === 'played' && value === false) {
                         newBracket.semiFinals[index].winner = null;
                     }
+                    // Auto-propagate SF winners to Final and SF losers to 3rd place
+                    const sf1 = newBracket.semiFinals[0];
+                    const sf2 = newBracket.semiFinals[1];
+                    const sf1Winner = sf1?.winner;
+                    const sf2Winner = sf2?.winner;
+                    const sf1Loser = sf1?.winner ? (sf1.winner === sf1.team1 ? sf1.team2 : sf1.team1) : null;
+                    const sf2Loser = sf2?.winner ? (sf2.winner === sf2.team1 ? sf2.team2 : sf2.team1) : null;
+                    // Update final teams
+                    newBracket.final = { ...prev.final, team1: sf1Winner, team2: sf2Winner };
+                    // Update 3rd place teams
+                    newBracket.thirdPlace = { ...prev.thirdPlace, team1: sf1Loser, team2: sf2Loser };
                 } else if (round === 'thirdPlace') {
                     newBracket.thirdPlace = { ...prev.thirdPlace, [field]: value };
                     // Auto-calculate winner
@@ -592,6 +612,14 @@ export default function AdminPage() {
                                     else if (match.score2 > match.score1) newBracket.quarterFinals[index].winner = match.player2;
                                 }
                                 if (field === 'played' && value === false) newBracket.quarterFinals[index].winner = null;
+                                // Auto-propagate QF winners to SF
+                                newBracket.semiFinals = [...prev.semiFinals];
+                                const qf1Winner = newBracket.quarterFinals[0]?.winner;
+                                const qf2Winner = newBracket.quarterFinals[1]?.winner;
+                                const qf3Winner = newBracket.quarterFinals[2]?.winner;
+                                const qf4Winner = newBracket.quarterFinals[3]?.winner;
+                                newBracket.semiFinals[0] = { ...newBracket.semiFinals[0], player1: qf1Winner, player2: qf2Winner };
+                                newBracket.semiFinals[1] = { ...newBracket.semiFinals[1], player1: qf3Winner, player2: qf4Winner };
                             } else if (round === 'semiFinals') {
                                 newBracket.semiFinals = [...prev.semiFinals];
                                 newBracket.semiFinals[index] = { ...prev.semiFinals[index], [field]: value };
@@ -601,6 +629,15 @@ export default function AdminPage() {
                                     else if (match.score2 > match.score1) newBracket.semiFinals[index].winner = match.player2;
                                 }
                                 if (field === 'played' && value === false) newBracket.semiFinals[index].winner = null;
+                                // Auto-propagate SF winners to Final and SF losers to 3rd place
+                                const sf1 = newBracket.semiFinals[0];
+                                const sf2 = newBracket.semiFinals[1];
+                                const sf1Winner = sf1?.winner;
+                                const sf2Winner = sf2?.winner;
+                                const sf1Loser = sf1?.winner ? (sf1.winner === sf1.player1 ? sf1.player2 : sf1.player1) : null;
+                                const sf2Loser = sf2?.winner ? (sf2.winner === sf2.player1 ? sf2.player2 : sf2.player1) : null;
+                                newBracket.final = { ...prev.final, player1: sf1Winner, player2: sf2Winner };
+                                newBracket.thirdPlace = { ...prev.thirdPlace, player1: sf1Loser, player2: sf2Loser };
                             } else if (round === 'thirdPlace') {
                                 newBracket.thirdPlace = { ...prev.thirdPlace, [field]: value };
                                 if (field === 'played' && value === true) {
@@ -863,6 +900,15 @@ export default function AdminPage() {
                                     else if (match.score2 > match.score1) newBracket.semiFinals[index].winner = match.team2;
                                 }
                                 if (field === 'played' && value === false) newBracket.semiFinals[index].winner = null;
+                                // Auto-propagate SF winners to Final and SF losers to 3rd place
+                                const sf1 = newBracket.semiFinals[0];
+                                const sf2 = newBracket.semiFinals[1];
+                                const sf1Winner = sf1?.winner;
+                                const sf2Winner = sf2?.winner;
+                                const sf1Loser = sf1?.winner ? (sf1.winner === sf1.team1 ? sf1.team2 : sf1.team1) : null;
+                                const sf2Loser = sf2?.winner ? (sf2.winner === sf2.team1 ? sf2.team2 : sf2.team1) : null;
+                                newBracket.final = { ...prev.final, team1: sf1Winner, team2: sf2Winner };
+                                newBracket.thirdPlace = { ...prev.thirdPlace, team1: sf1Loser, team2: sf2Loser };
                             } else if (round === 'thirdPlace') {
                                 newBracket.thirdPlace = { ...prev.thirdPlace, [field]: value };
                                 if (field === 'played' && value === true) {
