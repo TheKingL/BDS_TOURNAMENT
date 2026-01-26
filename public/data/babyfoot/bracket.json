@@ -57,8 +57,8 @@
       "team2": "delta",
       "score1": 0,
       "score2": 0,
-      "time": null,
-      "date": null,
+      "time": "12:55",
+      "date": "2026-01-27",
       "winner": null,
       "played": false
     },
@@ -69,8 +69,8 @@
       "team2": "sigma",
       "score1": 0,
       "score2": 0,
-      "time": null,
-      "date": null,
+      "time": "13:05",
+      "date": "2026-01-27",
       "winner": null,
       "played": false
     }
