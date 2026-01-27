@@ -29,24 +29,24 @@
       "position": "QF3",
       "player1": "villain",
       "player2": "chatet",
-      "score1": 0,
+      "score1": 2,
       "score2": 0,
       "time": "12:35",
       "date": "2026-01-27",
-      "winner": null,
-      "played": false
+      "winner": "villain",
+      "played": true
     },
     {
       "id": 4,
       "position": "QF4",
       "player1": "aihou",
       "player2": "djossou",
-      "score1": 0,
-      "score2": 0,
+      "score1": 2,
+      "score2": 1,
       "time": "12:45",
       "date": "2026-01-27",
-      "winner": null,
-      "played": false
+      "winner": "aihou",
+      "played": true
     }
   ],
   "semiFinals": [
@@ -66,8 +66,8 @@
     {
       "id": 2,
       "position": "SF2",
-      "player1": null,
-      "player2": null,
+      "player1": "villain",
+      "player2": "aihou",
       "score1": 0,
       "score2": 0,
       "time": null,
