@@ -55,12 +55,12 @@
       "position": "SF1",
       "player1": "tonneau",
       "player2": "sarr",
-      "score1": 0,
+      "score1": 2,
       "score2": 0,
       "time": "12:45",
       "date": "2026-01-28",
-      "winner": null,
-      "played": false,
+      "winner": "tonneau",
+      "played": true,
       "note": "Vainqueur QF1 vs Vainqueur QF2"
     },
     {
@@ -69,17 +69,17 @@
       "player1": "villain",
       "player2": "aihou",
       "score1": 0,
-      "score2": 0,
+      "score2": 2,
       "time": "12:55",
       "date": "2026-01-28",
-      "winner": null,
-      "played": false,
+      "winner": "aihou",
+      "played": true,
       "note": "Vainqueur QF3 vs Vainqueur QF4"
     }
   ],
   "thirdPlace": {
-    "player1": null,
-    "player2": null,
+    "player1": "sarr",
+    "player2": "villain",
     "score1": 0,
     "score2": 0,
     "time": null,
@@ -88,8 +88,8 @@
     "played": false
   },
   "final": {
-    "player1": null,
-    "player2": null,
+    "player1": "tonneau",
+    "player2": "aihou",
     "time": null,
     "date": null,
     "matches": [

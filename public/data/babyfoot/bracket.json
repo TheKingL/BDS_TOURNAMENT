@@ -78,12 +78,12 @@
   "thirdPlace": {
     "team1": "delta",
     "team2": "omega",
-    "score1": 0,
-    "score2": 0,
+    "score1": 9,
+    "score2": 6,
     "time": "12:45",
     "date": "2026-01-28",
-    "winner": null,
-    "played": false
+    "winner": "delta",
+    "played": true
   },
   "final": {
     "team1": "gamma",
@@ -92,21 +92,21 @@
     "date": "2026-01-28",
     "matches": [
       {
-        "score1": 0,
-        "score2": 0,
-        "played": false
+        "score1": 9,
+        "score2": 6,
+        "played": true
       },
       {
-        "score1": 0,
-        "score2": 0,
-        "played": false
+        "score1": 4,
+        "score2": 8,
+        "played": true
       },
       {
-        "score1": 0,
-        "score2": 0,
-        "played": false
+        "score1": 3,
+        "score2": 6,
+        "played": true
       }
     ],
-    "winner": null
+    "winner": "sigma"
   }
 }
