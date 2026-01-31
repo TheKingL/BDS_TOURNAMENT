@@ -80,12 +80,12 @@
   "thirdPlace": {
     "player1": "sarr",
     "player2": "villain",
-    "score1": 0,
-    "score2": 0,
+    "score1": 2,
+    "score2": 1,
     "time": "12:35",
     "date": "2026-01-29",
-    "winner": null,
-    "played": false
+    "winner": "sarr",
+    "played": true
   },
   "final": {
     "player1": "tonneau",
@@ -94,19 +94,19 @@
     "date": "2026-01-29",
     "matches": [
       {
-        "score1": 0,
-        "score2": 0,
-        "played": false
+        "score1": 11,
+        "score2": 6,
+        "played": true
       },
       {
-        "score1": 0,
-        "score2": 0,
-        "played": false
+        "score1": 11,
+        "score2": 1,
+        "played": true
       },
       {
-        "score1": 0,
-        "score2": 0,
-        "played": false
+        "score1": 11,
+        "score2": 1,
+        "played": true
       },
       {
         "score1": 0,
@@ -119,6 +119,6 @@
         "played": false
       }
     ],
-    "winner": null
+    "winner": "tonneau"
   }
 }

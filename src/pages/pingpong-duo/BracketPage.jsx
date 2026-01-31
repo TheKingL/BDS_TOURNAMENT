@@ -28,6 +28,13 @@ export default function BracketPage() {
         return team ? team.name : teamId;
     };
 
+    const getTeamPlayers = (teamId) => {
+        if (!teamId) return null;
+        const team = teams.find(t => t.id === teamId);
+        if (!team || !team.players) return null;
+        return team.players.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' & ');
+    };
+
     if (loading || !bracket) {
         return (
             <div className="flex items-center justify-center min-h-[60vh]">
@@ -69,6 +76,9 @@ export default function BracketPage() {
                     <div className="bg-gradient-to-r from-purple-900 to-purple-800 rounded-2xl inline-block" style={{ padding: '1.5rem 2rem' }}>
                         <p className="text-sm text-text-muted" style={{ marginBottom: '0.5rem' }}>🏆 Champions</p>
                         <p className="text-2xl font-bold text-purple-400">{getTeamName(bracket.final.winner)}</p>
+                        {getTeamPlayers(bracket.final.winner) && (
+                            <p className="text-sm text-text-secondary" style={{ marginTop: '0.5rem' }}>{getTeamPlayers(bracket.final.winner)}</p>
+                        )}
                     </div>
                 </div>
             )}

@@ -28,12 +28,12 @@
   "thirdPlace": {
     "team1": "team5",
     "team2": "team3",
-    "score1": 0,
+    "score1": 2,
     "score2": 0,
     "time": "12:45",
     "date": "2026-01-29",
-    "winner": null,
-    "played": false
+    "winner": "team5",
+    "played": true
   },
   "final": {
     "team1": "team6",
@@ -42,19 +42,19 @@
     "date": "2026-01-29",
     "matches": [
       {
-        "score1": 0,
-        "score2": 0,
-        "played": false
+        "score1": 6,
+        "score2": 11,
+        "played": true
       },
       {
-        "score1": 0,
-        "score2": 0,
-        "played": false
+        "score1": 6,
+        "score2": 11,
+        "played": true
       },
       {
-        "score1": 0,
-        "score2": 0,
-        "played": false
+        "score1": 3,
+        "score2": 11,
+        "played": true
       },
       {
         "score1": 0,
@@ -67,6 +67,6 @@
         "played": false
       }
     ],
-    "winner": null
+    "winner": "team2"
   }
 }
